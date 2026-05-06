@@ -528,3 +528,164 @@ h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a,
     from { opacity: 0; transform: translateY(12px); }
     to   { opacity: 1; transform: translateY(0); }
 }
+
+/* ============================================================ */
+/* ===== MOBILE / TABLET RESPONSIVE — phone < 640, tab < 1024 */
+/* ============================================================ */
+
+/* Tablet & smaller (≤1024px) — denser grids collapse to 2-per-row */
+@media (max-width: 1024px) {
+    .main .block-container {
+        max-width: 100% !important;
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+    .hero h1 { font-size: 2.5rem !important; }
+    .hero .tagline { font-size: 0.95rem !important; }
+    [data-testid="stColumn"] {
+        flex: 1 1 50% !important;
+        min-width: calc(50% - 0.5rem) !important;
+    }
+    [data-testid="stHorizontalBlock"] {
+        flex-wrap: wrap !important;
+    }
+}
+
+/* Phone (≤640px) — everything stacks single column */
+@media (max-width: 640px) {
+    .main .block-container {
+        padding-top: 1.25rem !important;
+        padding-bottom: 2rem !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    /* Stack ALL multi-column layouts */
+    [data-testid="stHorizontalBlock"] {
+        flex-direction: column !important;
+        gap: 0.75rem !important;
+    }
+    [data-testid="stColumn"] {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+        min-width: 100% !important;
+    }
+
+    /* Hero scaled down */
+    .hero h1 {
+        font-size: 2rem !important;
+        letter-spacing: -0.02em !important;
+        line-height: 1.1 !important;
+    }
+    .hero .tagline { font-size: 0.9rem !important; }
+
+    /* Mode pill wraps below title on phone */
+    .mode-pill {
+        display: inline-block !important;
+        margin-left: 0 !important;
+        margin-top: 0.5rem !important;
+        font-size: 0.72rem !important;
+    }
+
+    /* Subheaders smaller */
+    h2, h3 { font-size: 1.15rem !important; }
+
+    /* Larger touch targets — Apple recommends min 44pt */
+    .stButton > button,
+    .stDownloadButton > button {
+        min-height: 48px !important;
+        padding: 14px 18px !important;
+        font-size: 0.95rem !important;
+    }
+
+    /* Inputs grow taller for thumb typing */
+    .stTextArea textarea {
+        min-height: 130px !important;
+        font-size: 16px !important;  /* iOS won't zoom on focus if >=16px */
+    }
+    .stTextInput input {
+        font-size: 16px !important;
+    }
+
+    /* Section titles tighter */
+    .section-title {
+        font-size: 0.72rem !important;
+        margin: 1rem 0 0.5rem 0 !important;
+    }
+
+    /* Code block — readable but tight */
+    [data-testid="stCodeBlock"] {
+        font-size: 0.78rem !important;
+    }
+    pre, code, [data-testid="stCodeBlock"] code {
+        font-size: 0.78rem !important;
+    }
+
+    /* Validation card — wraps on tiny screens */
+    .validation-card {
+        padding: 10px 12px !important;
+        font-size: 0.8rem !important;
+    }
+    .validation-card .row {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+        font-size: 0.74rem !important;
+    }
+    .validation-card .header-line {
+        flex-wrap: wrap !important;
+        gap: 4px !important;
+    }
+
+    /* Empty state more compact */
+    .empty-state {
+        padding: 1.25rem 1rem !important;
+        margin-top: 0.5rem !important;
+    }
+    .empty-state .features {
+        max-width: 100% !important;
+    }
+    .empty-state .feature {
+        font-size: 0.8rem !important;
+    }
+
+    /* Footer stacks vertically */
+    .footer-card {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 1rem !important;
+        padding: 1.25rem !important;
+    }
+    .footer-card a.email-link {
+        width: 100% !important;
+        text-align: center !important;
+    }
+    .footer-card .stats-inline {
+        font-size: 0.7rem !important;
+        word-break: break-word;
+    }
+
+    /* Sidebar takes 85% of viewport on phone */
+    [data-testid="stSidebar"] {
+        width: 85vw !important;
+        min-width: 85vw !important;
+    }
+
+    /* Char counter readable */
+    .char-counter { font-size: 0.74rem !important; }
+
+    /* Popover (☰ menu) opens fullwidth on phone */
+    [data-testid="stPopover"] [data-baseweb="popover"] {
+        width: 90vw !important;
+        max-width: 90vw !important;
+    }
+}
+
+/* Very narrow phones (≤380px) — extra tightening */
+@media (max-width: 380px) {
+    .hero h1 { font-size: 1.75rem !important; }
+    .main .block-container {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+    }
+    .hero .stat-pill { font-size: 0.7rem !important; padding: 4px 9px !important; }
+}
