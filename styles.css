@@ -597,30 +597,97 @@ h1 > a, h2 > a, h3 > a, h4 > a, h5 > a, h6 > a,
     50%      { box-shadow: 0 0 0 5px rgba(255, 159, 10, 0); }
 }
 
-/* Make the API key input visually prominent inside the popover */
-[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input {
+/* ===== Popover API key input — proper wrapper styling ===== */
+/* Style the wrapper (which holds input + eye toggle) as the "box" */
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput {
+    width: 100% !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput > div,
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"],
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="base-input"] {
     background: #2C2C2E !important;
     border: 2px solid #38383A !important;
     border-radius: 10px !important;
-    padding: 14px 16px !important;
-    font-size: 0.95rem !important;
-    font-family: "SF Mono", Menlo, monospace !important;
-    color: #F5F5F7 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
     transition: all 0.15s ease !important;
 }
-[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input:focus {
+
+/* Focus state on the wrapper */
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"]:focus-within,
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="base-input"]:focus-within {
     border-color: #0A84FF !important;
     background: #1C1C1E !important;
     box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.2) !important;
 }
+
+/* Inner input — transparent so the wrapper border shows through */
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 13px 14px !important;
+    font-size: 0.95rem !important;
+    font-family: "SF Mono", Menlo, Monaco, Consolas, monospace !important;
+    color: #F5F5F7 !important;
+    box-shadow: none !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    outline: none !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input:focus {
+    background: transparent !important;
+    box-shadow: none !important;
+}
 [data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input::placeholder {
     color: #636366 !important;
     font-family: "SF Mono", Menlo, monospace !important;
+    letter-spacing: 0.02em !important;
 }
+
+/* Eye-toggle button — sits inside the wrapper, properly aligned */
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"] button,
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput button {
+    background: transparent !important;
+    border: none !important;
+    color: #8E8E93 !important;
+    padding: 0 14px !important;
+    margin: 0 !important;
+    min-width: 44px !important;
+    min-height: unset !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: color 0.15s ease !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"] button:hover,
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput button:hover {
+    color: #F5F5F7 !important;
+    background: transparent !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"] button svg,
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput button svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+/* Label above the input */
 [data-testid="stPopover"] [data-baseweb="popover"] .stTextInput label {
     color: #C7C7CC !important;
     font-size: 0.82rem !important;
-    margin-bottom: 0.4rem !important;
+    font-weight: 500 !important;
+    margin-bottom: 6px !important;
+    padding: 0 !important;
 }
 
 /* ===== Animations ===== */

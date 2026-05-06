@@ -247,22 +247,40 @@ pre, code, [data-testid="stCodeBlock"] code {
     box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
 }
 
-/* API key input in light mode popover */
-[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input {
+/* API key wrapper + input in light mode popover */
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput > div,
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"],
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="base-input"] {
     background: #F5F5F7 !important;
     border: 2px solid #D1D1D6 !important;
-    color: #1C1C1E !important;
 }
-[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input:focus {
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"]:focus-within,
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="base-input"]:focus-within {
     border-color: #007AFF !important;
     background: #FFFFFF !important;
     box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.18) !important;
+}
+
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input {
+    background: transparent !important;
+    color: #1C1C1E !important;
 }
 [data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input::placeholder {
     color: #AEAEB2 !important;
 }
 [data-testid="stPopover"] [data-baseweb="popover"] .stTextInput label {
     color: #48484A !important;
+}
+
+/* Eye toggle in light mode */
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"] button,
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput button {
+    color: #8E8E93 !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] [data-baseweb="input"] button:hover,
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput button:hover {
+    color: #1C1C1E !important;
+    background: transparent !important;
 }
 
 .popover-section-title { color: #636366 !important; }
