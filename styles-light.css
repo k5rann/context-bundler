@@ -241,6 +241,54 @@ pre, code, [data-testid="stCodeBlock"] code {
     background: #F5F5F7 !important;
 }
 
+/* Popover content area in light mode */
+[data-testid="stPopover"] [data-baseweb="popover"] {
+    background: #FFFFFF !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* API key input in light mode popover */
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input {
+    background: #F5F5F7 !important;
+    border: 2px solid #D1D1D6 !important;
+    color: #1C1C1E !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input:focus {
+    border-color: #007AFF !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.18) !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput input::placeholder {
+    color: #AEAEB2 !important;
+}
+[data-testid="stPopover"] [data-baseweb="popover"] .stTextInput label {
+    color: #48484A !important;
+}
+
+.popover-section-title { color: #636366 !important; }
+.popover-help { color: #636366 !important; }
+.popover-help a { color: #007AFF !important; }
+
+/* Key status badges — light variants */
+.key-status.set {
+    background: rgba(52, 199, 89, 0.12) !important;
+    border-color: rgba(52, 199, 89, 0.5) !important;
+    color: #1A8C44 !important;
+}
+.key-status.set .dot { background: #34C759 !important; }
+.key-status.env {
+    background: rgba(0, 122, 255, 0.1) !important;
+    border-color: rgba(0, 122, 255, 0.4) !important;
+    color: #0066CC !important;
+}
+.key-status.env .dot { background: #007AFF !important; }
+.key-status.missing {
+    background: rgba(255, 149, 0, 0.12) !important;
+    border-color: rgba(255, 149, 0, 0.5) !important;
+    color: #B8651F !important;
+}
+.key-status.missing .dot { background: #FF9500 !important; }
+
 /* Footer stats inline in light mode */
 .footer-card .stats-inline {
     color: #8E8E93 !important;

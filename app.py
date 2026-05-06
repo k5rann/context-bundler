@@ -151,37 +151,69 @@ with menu_col:
     menu_help = "Settings: theme + API key" + ("" if has_any_key else "  ·  API key required")
 
     with st.popover(menu_label, use_container_width=True, help=menu_help):
-        st.markdown("**Appearance**")
+        # ===== API KEY SECTION (most important — goes first) =====
+        st.markdown(
+            '<div class="popover-section-title">GEMINI API KEY</div>',
+            unsafe_allow_html=True,
+        )
+
+        # Status badge at the very top — biggest visual signal
+        if st.session_state.get("user_api_key"):
+            st.markdown(
+                '<div class="key-status set">'
+                '<span class="dot"></span> Key active for this session'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+        elif has_env_key:
+            st.markdown(
+                '<div class="key-status env">'
+                '<span class="dot"></span> Using key from environment'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+        else:
+            st.markdown(
+                '<div class="key-status missing">'
+                '<span class="dot"></span> No key set — required to generate'
+                '</div>',
+                unsafe_allow_html=True,
+            )
+
+        st.text_input(
+            "Paste your key here",
+            type="password",
+            key="user_api_key",
+            placeholder="AIzaSy...",
+            label_visibility="visible",
+        )
+
+        st.markdown(
+            '<div class="popover-help">'
+            'Get a free key from '
+            '<a href="https://aistudio.google.com/app/apikey" target="_blank">'
+            'aistudio.google.com/app/apikey</a>. '
+            'Stored in your browser session only — never sent to a server.'
+            '</div>',
+            unsafe_allow_html=True,
+        )
+
+        st.divider()
+
+        # ===== APPEARANCE SECTION =====
+        st.markdown(
+            '<div class="popover-section-title">APPEARANCE</div>',
+            unsafe_allow_html=True,
+        )
         st.radio(
             "Theme",
             ["System", "Light", "Dark"],
             index=["System", "Light", "Dark"].index(theme_choice),
-            horizontal=False,
+            horizontal=True,
             key="theme_choice",
             label_visibility="collapsed",
             help="System matches your OS setting and switches automatically.",
         )
-
-        st.divider()
-        st.markdown("**Your Gemini API key**")
-        st.text_input(
-            "API key",
-            type="password",
-            key="user_api_key",
-            placeholder="AIza...",
-            help="Get a free key at https://aistudio.google.com/app/apikey",
-            label_visibility="collapsed",
-        )
-        st.caption(
-            "Stored in your browser session only — never sent to a server. "
-            "Get a free key at [aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)."
-        )
-        if st.session_state.get("user_api_key"):
-            st.success("Key set for this session.")
-        elif has_env_key:
-            st.info("Using GEMINI_API_KEY from environment.")
-        else:
-            st.warning("No key set. Generation will fail until you add one.")
 
 with title_col:
     mode_count = len(selected_modes)
