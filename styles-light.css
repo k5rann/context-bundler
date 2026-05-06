@@ -1,0 +1,247 @@
+/* LIGHT THEME — overrides on top of styles.css */
+
+.stApp {
+    background:
+        radial-gradient(ellipse 60% 40% at 20% 0%, rgba(0, 122, 255, 0.05) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 30% at 80% 10%, rgba(191, 90, 242, 0.04) 0%, transparent 50%),
+        linear-gradient(180deg, #FFFFFF 0%, #FAFAFA 60%) !important;
+}
+
+/* Hero */
+.hero h1 {
+    background: linear-gradient(135deg, #1C1C1E 0%, #48484A 50%, #007AFF 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+.hero .tagline { color: #48484A !important; }
+.hero .stat-pill {
+    background: #FFFFFF !important;
+    border: 1px solid #D1D1D6 !important;
+    color: #636366 !important;
+}
+.hero .stat-pill .num { color: #007AFF !important; }
+
+/* Headings */
+h2, h3 { color: #1C1C1E !important; }
+
+[data-testid="stCaptionContainer"],
+.stCaptionContainer,
+small,
+.stMarkdown small {
+    color: #636366 !important;
+}
+
+/* Section titles in light mode */
+.section-title { color: #636366 !important; }
+
+/* Inputs — light theme overrides */
+.stTextInput input,
+.stTextInput > div,
+.stTextInput [data-baseweb="base-input"] {
+    background: #FFFFFF !important;
+    border: 1px solid #D1D1D6 !important;
+    color: #1C1C1E !important;
+}
+
+.stTextArea textarea,
+[data-baseweb="textarea"] {
+    background: #FFFFFF !important;
+    border: 1px solid #D1D1D6 !important;
+    color: #1C1C1E !important;
+}
+
+.stTextArea textarea:focus, .stTextInput input:focus {
+    border-color: #007AFF !important;
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15) !important;
+}
+.stTextArea textarea::placeholder, .stTextInput input::placeholder {
+    color: #AEAEB2 !important;
+}
+.stTextArea label, .stTextInput label { color: #48484A !important; }
+
+/* Code blocks */
+[data-testid="stCodeBlock"] {
+    background: #F5F5F7 !important;
+    border: 1px solid #D1D1D6 !important;
+}
+pre, code, [data-testid="stCodeBlock"] code {
+    color: #1C1C1E !important;
+}
+
+/* Buttons — light theme */
+/* All secondary/default buttons (templates, presets, mode cards) become white */
+.stButton > button,
+.stButton button[kind="secondary"],
+.stButton [data-testid*="baseButton-secondary"],
+.stButton [data-testid*="BaseButton-secondary"],
+.stButton [data-testid*="stBaseButton-secondary"] {
+    background: #FFFFFF !important;
+    color: #1C1C1E !important;
+    border: 1px solid #D1D1D6 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+.stButton > button:hover,
+.stButton button[kind="secondary"]:hover,
+.stButton [data-testid*="baseButton-secondary"]:hover,
+.stButton [data-testid*="BaseButton-secondary"]:hover,
+.stButton [data-testid*="stBaseButton-secondary"]:hover {
+    background: #F5F5F7 !important;
+    border-color: #007AFF !important;
+    box-shadow: 0 4px 12px rgba(0, 122, 255, 0.15) !important;
+}
+
+/* Primary button stays iOS blue (Generate master prompt + active mode cards) */
+.stButton > button[kind="primary"],
+.stButton [data-testid*="baseButton-primary"],
+.stButton [data-testid*="BaseButton-primary"],
+.stButton [data-testid*="stBaseButton-primary"] {
+    background: #007AFF !important;
+    color: #FFFFFF !important;
+    border: none !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) !important;
+}
+.stButton > button[kind="primary"]:hover,
+.stButton [data-testid*="baseButton-primary"]:hover,
+.stButton [data-testid*="BaseButton-primary"]:hover,
+.stButton [data-testid*="stBaseButton-primary"]:hover {
+    background: #0066CC !important;
+    box-shadow: 0 6px 16px rgba(0, 122, 255, 0.3) !important;
+}
+
+/* Bold/strong text inside light-mode buttons */
+.stButton button strong, .stButton button b {
+    color: inherit !important;
+}
+
+.stDownloadButton > button {
+    background: #FFFFFF !important;
+    color: #007AFF !important;
+    border: 1px solid #D1D1D6 !important;
+}
+.stDownloadButton > button:hover {
+    background: #F5F5F7 !important;
+    border-color: #007AFF !important;
+}
+
+/* Checkboxes */
+.stCheckbox > label { color: #1C1C1E !important; }
+
+/* Alerts */
+.stAlert {
+    border: 1px solid #D1D1D6 !important;
+    background: #FFFFFF !important;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+    background: #F5F5F7 !important;
+    border-right: 1px solid #D1D1D6 !important;
+}
+[data-testid="stSidebar"] h2 { color: #636366 !important; }
+
+/* Expander */
+[data-testid="stExpander"] details {
+    background: #FFFFFF !important;
+    border: 1px solid #D1D1D6 !important;
+}
+[data-testid="stExpander"] summary { color: #1C1C1E !important; }
+
+/* Validation card */
+.validation-card {
+    background: #FFFFFF !important;
+    border-color: #D1D1D6 !important;
+}
+.validation-card.clean { border-color: #34C759 !important; }
+.validation-card.warn  { border-color: #FF9500 !important; }
+.validation-card.dirty { border-color: #FF3B30 !important; }
+.validation-card .row { color: #48484A !important; }
+.validation-card .header-line {
+    color: #1C1C1E !important;
+    border-bottom-color: #D1D1D6 !important;
+}
+.validation-card .note { color: #636366 !important; }
+.validation-card .badge.clean { background: rgba(52, 199, 89, 0.18) !important; color: #1A8C44 !important; }
+.validation-card .badge.warn  { background: rgba(255, 149, 0, 0.18) !important; color: #B8651F !important; }
+.validation-card .badge.dirty { background: rgba(255, 59, 48, 0.18) !important; color: #C0271F !important; }
+
+/* Empty state */
+.empty-state {
+    background: #FFFFFF !important;
+    border-color: #D1D1D6 !important;
+}
+.empty-state .title { color: #1C1C1E !important; }
+.empty-state .subtitle { color: #636366 !important; }
+.empty-state .feature {
+    color: #48484A !important;
+    border-bottom-color: #E5E5EA !important;
+}
+
+/* Mode cards */
+.mode-card {
+    background: #FFFFFF !important;
+    border-color: #D1D1D6 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+.mode-card:hover {
+    border-color: #007AFF !important;
+    box-shadow: 0 6px 20px rgba(0, 122, 255, 0.12) !important;
+}
+.mode-card .mode-title { color: #1C1C1E !important; }
+.mode-card .mode-desc { color: #636366 !important; }
+.mode-card.active {
+    background: linear-gradient(180deg, #FFFFFF 0%, rgba(0, 122, 255, 0.06) 100%) !important;
+}
+
+/* Footer */
+.footer-card {
+    background: #FFFFFF !important;
+    border-color: #D1D1D6 !important;
+}
+.footer-card .name { color: #1C1C1E !important; }
+.footer-card .role { color: #636366 !important; }
+
+/* Section titles */
+.section-title { color: #636366 !important; }
+
+/* Char counter */
+.char-counter { color: #AEAEB2 !important; }
+.char-counter.good { color: #34C759 !important; }
+.char-counter.thin { color: #FF9500 !important; }
+
+/* Mode pill */
+.mode-pill {
+    background: rgba(0, 122, 255, 0.12) !important;
+    color: #007AFF !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar-thumb { background: #C7C7CC !important; }
+::-webkit-scrollbar-thumb:hover { background: #AEAEB2 !important; }
+
+/* Selection */
+::selection {
+    background: rgba(0, 122, 255, 0.18) !important;
+    color: #1C1C1E !important;
+}
+
+/* Radio buttons in sidebar (theme picker) */
+[data-testid="stSidebar"] .stRadio label {
+    color: #1C1C1E !important;
+}
+
+/* Popover (☰ menu) in light mode */
+[data-testid="stPopover"] button {
+    background: #FFFFFF !important;
+    color: #1C1C1E !important;
+    border: 1px solid #D1D1D6 !important;
+}
+[data-testid="stPopover"] button:hover {
+    border-color: #007AFF !important;
+    background: #F5F5F7 !important;
+}
+
+/* Footer stats inline in light mode */
+.footer-card .stats-inline {
+    color: #8E8E93 !important;
+}
