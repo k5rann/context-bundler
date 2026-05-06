@@ -12,6 +12,18 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
+# ==========================================
+# Sync Streamlit secrets → env vars
+# (so the deployer's shared key is picked up without code changes in llm.py)
+# ==========================================
+try:
+    if "GEMINI_API_KEY" in st.secrets:
+        os.environ["GEMINI_API_KEY"] = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    pass  # st.secrets may not exist locally; fall back to .env
+
+HAS_SHARED_KEY = bool(os.getenv("GEMINI_API_KEY"))
+
 # Read theme choice early (so we can inject correct CSS at the top)
 theme_choice = st.session_state.get("theme_choice", "System")
 
@@ -145,57 +157,123 @@ title_col, menu_col = st.columns([14, 1])
 
 with menu_col:
     user_api_key = st.session_state.get("user_api_key", "")
-    has_env_key = bool(os.getenv("GEMINI_API_KEY"))
-    has_any_key = bool(user_api_key) or has_env_key
+    has_user_key = bool(user_api_key)
+    has_any_key = has_user_key or HAS_SHARED_KEY
     menu_label = "☰" if has_any_key else "☰ ●"
-    menu_help = "Settings: theme + API key" + ("" if has_any_key else "  ·  API key required")
+    menu_help = "Settings: API key + theme" + ("" if has_any_key else "  ·  API key required")
 
     with st.popover(menu_label, use_container_width=True, help=menu_help):
-        # ===== API KEY SECTION (most important — goes first) =====
+        # ===== API KEY SECTION =====
         st.markdown(
             '<div class="popover-section-title">GEMINI API KEY</div>',
             unsafe_allow_html=True,
         )
 
         # Status badge at the very top — biggest visual signal
-        if st.session_state.get("user_api_key"):
+        if has_user_key:
             st.markdown(
                 '<div class="key-status set">'
-                '<span class="dot"></span> Key active for this session'
+                '<span class="dot"></span> Personal key active &middot; unlimited use'
                 '</div>',
                 unsafe_allow_html=True,
             )
-        elif has_env_key:
+        elif HAS_SHARED_KEY:
             st.markdown(
                 '<div class="key-status env">'
-                '<span class="dot"></span> Using key from environment'
+                '<span class="dot"></span> Using shared key &middot; community quota'
                 '</div>',
                 unsafe_allow_html=True,
             )
         else:
             st.markdown(
                 '<div class="key-status missing">'
-                '<span class="dot"></span> No key set — required to generate'
+                '<span class="dot"></span> No key set &middot; required to generate'
                 '</div>',
                 unsafe_allow_html=True,
             )
 
         st.text_input(
-            "Paste your key here",
+            "Your own key (optional, for unlimited use)" if HAS_SHARED_KEY else "Paste your key here",
             type="password",
             key="user_api_key",
             placeholder="AIzaSy...",
             label_visibility="visible",
         )
 
-        st.markdown(
-            '<div class="popover-help">'
-            'Get a free key from '
-            '<a href="https://aistudio.google.com/app/apikey" target="_blank">'
-            'aistudio.google.com/app/apikey</a>. '
-            'Stored in your browser session only — never sent to a server.'
-            '</div>',
-            unsafe_allow_html=True,
+        if HAS_SHARED_KEY:
+            help_text = (
+                'You can use the app immediately with the shared community key. '
+                'Paste your own free key from '
+                '<a href="https://aistudio.google.com/app/apikey" target="_blank">'
+                'aistudio.google.com/app/apikey</a> '
+                'to get unlimited generations and bypass the shared quota.'
+            )
+        else:
+            help_text = (
+                'Get a free key from '
+                '<a href="https://aistudio.google.com/app/apikey" target="_blank">'
+                'aistudio.google.com/app/apikey</a>. '
+                'Stored in your browser session only — never sent to a server.'
+            )
+        st.markdown(f'<div class="popover-help">{help_text}</div>', unsafe_allow_html=True)
+
+        # localStorage sync — paste once, persist across visits on this device
+        st.components.v1.html(
+            """
+<script>
+(function() {
+    const STORAGE_KEY = 'context_bundler_gemini_key';
+
+    function findKeyInput() {
+        // Find the password input across all Streamlit frames
+        const inputs = window.parent.document.querySelectorAll('input[type="password"]');
+        for (const input of inputs) {
+            if (input.placeholder && input.placeholder.includes('AIza')) return input;
+        }
+        return null;
+    }
+
+    function syncToStreamlit(value) {
+        const input = findKeyInput();
+        if (!input) return false;
+        const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+        setter.call(input, value);
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+        return true;
+    }
+
+    // On load: restore from localStorage if present
+    try {
+        const saved = window.parent.localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+            let attempts = 0;
+            const restore = setInterval(function() {
+                attempts++;
+                if (syncToStreamlit(saved) || attempts > 20) clearInterval(restore);
+            }, 200);
+        }
+    } catch (e) {}
+
+    // On change: save to localStorage
+    setInterval(function() {
+        const input = findKeyInput();
+        if (!input) return;
+        try {
+            const current = input.value || '';
+            const stored = window.parent.localStorage.getItem(STORAGE_KEY) || '';
+            if (current && current !== stored) {
+                window.parent.localStorage.setItem(STORAGE_KEY, current);
+            } else if (!current && stored) {
+                // user cleared the field — remove from storage
+                window.parent.localStorage.removeItem(STORAGE_KEY);
+            }
+        } catch (e) {}
+    }, 1000);
+})();
+</script>
+            """,
+            height=0,
         )
 
         st.divider()
@@ -402,7 +480,18 @@ with right:
                             st.code(result["raw_output"], language="markdown")
 
                 except Exception as e:
-                    st.error(f"Error: {e}")
+                    err_str = str(e).lower()
+                    if any(t in err_str for t in ["rate limit", "quota", "all free-tier"]):
+                        st.error(
+                            "**Daily quota exhausted.** The shared key for this app has hit its "
+                            "free-tier limit for today. Two options:\n\n"
+                            "1. **Wait** — Google's free quota resets at midnight Pacific time.\n"
+                            "2. **Use your own free key** — paste it into the ☰ menu (top right) "
+                            "for unlimited generations. Get one at "
+                            "[aistudio.google.com/app/apikey](https://aistudio.google.com/app/apikey)."
+                        )
+                    else:
+                        st.error(f"Error: {e}")
     elif go:
         st.warning("Type a request on the left first.")
     else:
